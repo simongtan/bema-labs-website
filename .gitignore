@@ -1,0 +1,16 @@
+_source/
+*.zip
+# Internal planning docs (pricing, prospects, [CONFIRM] notes) - never commit
+docs/
+
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+
+# Environment and local files
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
