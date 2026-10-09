@@ -8,6 +8,9 @@
  *  - has an element with class "example" that does not show the text "Illustrative example",
  *  - does not have exactly one <h1>.
  * Also fails if dist/ contains internal files (_source, docs, .md, .zip, .pdf, .docx).
+ * When CI is set (GitHub Actions), also fails if /contact/ lacks the mailto button with the encoded
+ * walkthrough template and the visible address, or /privacy/ does not link that address.
+ * Locally those contact checks only warn, so builds with site.contactEmail unset stay usable.
  *
  * To allow an approved term later (e.g. a product name), add it to ALLOW rather than deleting
  * the broader rule.
@@ -114,6 +117,36 @@ function elementsWithClass(html, className) {
   return results;
 }
 
+/**
+ * /contact/ must render the mailto button (with the encoded walkthrough template) and the same
+ * address as visible text; /privacy/ must link the same address. Returns problem strings.
+ */
+async function contactChecks() {
+  const problems = [];
+  const read = (p) => readFile(join(DIST, p), 'utf8').catch(() => null);
+  const contact = await read('contact/index.html');
+  if (contact === null) return ['contact/index.html: page not found in dist/'];
+
+  const mailto = contact.match(
+    /href="mailto:([^"?\s]+@[^"?\s]+)\?subject=Walkthrough%20request&(?:amp;|#38;)?body=Business%20name[^"]*"/,
+  );
+  if (!mailto) {
+    problems.push(
+      'contact/index.html: no mailto link with the walkthrough template. Set site.contactEmail in src/config/site.ts.',
+    );
+    return problems;
+  }
+  const address = mailto[1];
+  if (!new RegExp(`<strong\\b[^>]*>${escapeRe(address)}</strong>`).test(contact)) {
+    problems.push(`contact/index.html: the address ${address} is not shown as visible text`);
+  }
+  const privacy = await read('privacy/index.html');
+  if (privacy !== null && !privacy.includes(`href="mailto:${address}"`)) {
+    problems.push(`privacy/index.html: the access-and-correction line does not link ${address}`);
+  }
+  return problems;
+}
+
 async function main() {
   try {
     await stat(DIST);
@@ -177,6 +210,17 @@ async function main() {
     // Exactly one h1 per page.
     const h1Count = (html.match(/<h1\b/gi) || []).length;
     if (h1Count !== 1) failures.push(`${rel}: expected exactly one <h1>, found ${h1Count}`);
+  }
+
+  // Contact route must give visitors a way to reach BEMA (every primary CTA ends on /contact/).
+  // Enforced in CI (deploy); a local build with site.contactEmail still unset only warns.
+  const contactProblems = await contactChecks();
+  if (contactProblems.length) {
+    if (process.env.CI) failures.push(...contactProblems);
+    else {
+      console.warn('check:content warning (enforced in CI, so deploy would fail):');
+      for (const p of contactProblems) console.warn(`  - ${p}`);
+    }
   }
 
   if (failures.length) {

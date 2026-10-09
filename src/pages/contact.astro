@@ -6,7 +6,8 @@ import Button from '../components/Button.astro';
 import Mail from '../components/icons/Mail.astro';
 import { site, mailtoHref } from '../config/site';
 
-// Email block renders only once site.contactEmail is set (check:prelaunch blocks deploy until then).
+// Email block (and the "button below" sentence) renders only once site.contactEmail is set.
+// check:prelaunch blocks deploy until then, and check:content (in CI) fails if no mailto is built.
 // Optional LinkedIn line renders only if site.linkedin is set.
 const href = mailtoHref();
 const email = site.contactEmail;
@@ -27,8 +28,9 @@ const email = site.contactEmail;
       <div class="email">
         <h2 id="email-heading">Email us</h2>
         <p class="lead">
-          The quickest way to start is an email. The button below opens a short template you can
-          fill in.
+          The quickest way to start is an email.{
+            href && email && ' The button below opens a short template you can fill in.'
+          }
         </p>
         {href && email && (
           <div class="email__action">

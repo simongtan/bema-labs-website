@@ -16,9 +16,12 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const failures = [];
 
-// 1. Contact email
+// 1. Contact email. Read the property inside `export const site = { ... }` only, anchored to the
+// start of its line, so the header comment ("contactEmail: null until ...") and the interface
+// declaration (`contactEmail: string | null;`) are never matched.
 const siteTs = await readFile(join(ROOT, 'src/config/site.ts'), 'utf8');
-const match = siteTs.match(/contactEmail:\s*(null|'([^']*)'|"([^"]*)")/);
+const siteObject = siteTs.slice(Math.max(0, siteTs.search(/^export const site\b/m)));
+const match = siteObject.match(/^\s*contactEmail:\s*(null|'([^']*)'|"([^"]*)")\s*,?\s*(\/\/.*)?$/m);
 if (!match) {
   failures.push('Could not find `contactEmail` in src/config/site.ts.');
 } else if (match[1] === 'null') {
