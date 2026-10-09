@@ -1,7 +1,10 @@
 ---
-// Scaffold stub. Owner: about-contact-labs (SITE-SPEC §6, COPY §7). Replace this file.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import Section from '../components/Section.astro';
+import { site } from '../config/site';
+
+const email = site.contactEmail;
 ---
 
 <BaseLayout
@@ -12,4 +15,85 @@ import PageIntro from '../components/PageIntro.astro';
     title="Privacy"
     lead="This statement explains what personal information BEMA Labs collects through this website and how we handle it."
   />
+
+  <Section width="narrow">
+    <div class="policy">
+      <section aria-labelledby="site-heading">
+        <h2 id="site-heading">This website</h2>
+        <ul class="list-bullet">
+          <li>This site has no contact forms, no cookies, no analytics and no advertising trackers.</li>
+          <li>
+            The site is hosted on GitHub Pages. GitHub may record technical information, such as IP
+            addresses, in its server logs for security purposes. GitHub's privacy statement
+            explains how it handles that information.
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="email-heading">
+        <h2 id="email-heading">When you email us</h2>
+        <ul class="list-bullet">
+          <li>If you email us, we receive your email address and whatever you include in your message.</li>
+          <li>
+            We use it to reply, to arrange and carry out work you ask about, and to keep business
+            records.
+          </li>
+          <li>We don't sell it, and we won't add you to a mailing list without asking.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="clients-heading">
+        <h2 id="clients-heading">Client engagements</h2>
+        <ul class="list-bullet">
+          <li>
+            Personal information we handle while delivering a project is covered by the agreement
+            for that project.
+          </li>
+          <li>
+            We check privacy and data-handling requirements before any personal information is sent
+            to an external AI or cloud service.
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="approach-heading">
+        <h2 id="approach-heading">Our approach</h2>
+        <p>
+          We aim to handle personal information in line with the Australian Privacy Principles.
+        </p>
+      </section>
+
+      <section aria-labelledby="access-heading">
+        <h2 id="access-heading">Access and correction</h2>
+        <p>
+          You can ask what personal information we hold about you, or ask us to correct or delete
+          it, by emailing {email ? <a href={`mailto:${email}`}>{email}</a> : 'us'}.
+        </p>
+      </section>
+
+      <section aria-labelledby="changes-heading">
+        <h2 id="changes-heading">Changes</h2>
+        <ul class="list-bullet">
+          <li>We'll update this page if our practices change.</li>
+          <li>Last updated: October 2026</li>
+        </ul>
+      </section>
+    </div>
+  </Section>
 </BaseLayout>
+
+<style>
+  .policy {
+    display: grid;
+    gap: var(--space-10, var(--space-8));
+  }
+
+  h2 {
+    font-size: var(--text-h3);
+    margin-bottom: var(--space-3);
+  }
+
+  .list-bullet li + li {
+    margin-top: var(--space-2);
+  }
+</style>

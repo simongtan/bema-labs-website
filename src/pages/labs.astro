@@ -1,8 +1,12 @@
 ---
-// Scaffold stub. Owner: about-contact-labs (SITE-SPEC §6 and §7, COPY §6). Replace this file.
-// Not in the primary nav; linked from the footer and About only. site.products is [] in v1.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import { site } from '../config/site';
+
+// Products are listed only when site.products has entries (needs Simon's recorded approval).
+const products = site.products;
 ---
 
 <BaseLayout
@@ -14,4 +18,73 @@ import PageIntro from '../components/PageIntro.astro';
     title="Labs"
     lead="Client work comes first at BEMA Labs. Alongside it, we develop a small number of our own software tools."
   />
+
+  <Section labelledby="origin-heading" width="narrow">
+    <h2 id="origin-heading">Where our tools come from</h2>
+    <p class="body">
+      Most start as a problem we've seen in more than one business. A tool earns development time
+      when the same need turns up across several unrelated organisations and a shared solution
+      would genuinely serve them. Not before.
+    </p>
+  </Section>
+
+  <Section tone="subtle" labelledby="clients-heading" width="narrow">
+    <h2 id="clients-heading">What this means for clients</h2>
+    <ul class="list-check body">
+      <li>Your data and the work built specifically for you stay yours.</li>
+      <li>
+        We only reuse general-purpose components we own, and your agreement says which ones.
+      </li>
+      <li>Nothing is trialled on your operation without your agreement.</li>
+      <li>Product work never takes priority over a client commitment.</li>
+    </ul>
+  </Section>
+
+  <Section labelledby="products-heading" width="narrow">
+    <h2 id="products-heading">Products</h2>
+    {products.length === 0 ? (
+      <p class="body">When a BEMA Labs product is ready for public use, it will be listed here.</p>
+    ) : (
+      <ul role="list" class="body products">
+        {products.map((p) => (
+          <li>
+            <a href={p.url}>{p.name}</a>
+            <span class="text-secondary"> A BEMA Labs product</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </Section>
+
+  <Section tone="subtle" labelledby="back-heading" width="narrow">
+    <h2 id="back-heading" class="visually-hidden">Looking for help</h2>
+    <div class="back">
+      <p class="lead">Looking for help with a process?</p>
+      <Button href="/services/">See our services</Button>
+    </div>
+  </Section>
 </BaseLayout>
+
+<style>
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  .body {
+    margin-top: var(--space-6);
+  }
+
+  .products {
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .back {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+  }
+</style>

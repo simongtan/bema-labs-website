@@ -1,0 +1,108 @@
+---
+/**
+ * "Where automation helps": four problem cards (COPY §2.2), each a problem and the fix.
+ * Copy is verbatim; titles drop the run-in full stop because they render as headings.
+ */
+import ArrowRight from '../icons/ArrowRight.astro';
+
+interface Props {
+  headingLevel?: 3 | 4;
+}
+
+const { headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h3' | 'h4';
+
+const problems = [
+  {
+    title: 'The same details, typed again',
+    problem: 'Orders, jobs or requests keyed into email, a spreadsheet and the main system.',
+    fix: 'We connect the steps so information is entered once and flows on.',
+  },
+  {
+    title: 'Gaps found too late',
+    problem: 'Missing quantities, specifications or sign-offs discovered halfway through the job.',
+    fix: "Structured intake flags what's missing before work starts.",
+  },
+  {
+    title: 'Approvals stuck in inboxes',
+    problem: 'Requests waiting on the right person, with no reminder and no record.',
+    fix: "Simple routing makes it clear who has it and what's overdue.",
+  },
+  {
+    title: 'Reports built by hand',
+    problem: 'Someone pulls numbers from several places every week.',
+    fix: 'A dashboard that refreshes itself, with every figure traceable to its source.',
+  },
+];
+---
+
+<ul class="problems" role="list">
+  {
+    problems.map((item) => (
+      <li class="problem">
+        <Heading class="problem__title">{item.title}</Heading>
+        <p class="problem__issue">{item.problem}</p>
+        <p class="problem__fix">
+          <ArrowRight size={20} class="problem__icon" />
+          <span>{item.fix}</span>
+        </p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .problems {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .problem {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .problem__title {
+    font-size: var(--text-h3);
+  }
+
+  .problem__issue {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  /* The fix sits at the foot of the card so fixes line up across a row. */
+  .problem__fix {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: var(--border-width) solid var(--color-border);
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .problem__fix :global(.problem__icon) {
+    margin-top: 0.2em;
+    color: var(--color-brand);
+  }
+
+  @media (min-width: 720px) {
+    .problems {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+
+    .problem {
+      padding: var(--space-8);
+    }
+  }
+</style>

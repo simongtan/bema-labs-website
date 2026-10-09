@@ -1,0 +1,133 @@
+---
+/**
+ * Five working principles (COPY §3.3). The first, human approval, is featured full width.
+ * Copy is verbatim; titles drop the run-in full stop because they render as headings.
+ */
+interface Props {
+  headingLevel?: 3 | 4;
+}
+
+const { headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h3' | 'h4';
+
+const principles = [
+  {
+    title: 'Human approval, designed in',
+    body: "We decide with you which steps a person must approve, and the automation can't skip them. Approval screens show the source information, so the person approving can actually check it.",
+  },
+  {
+    title: 'Responsible use of AI',
+    body: 'AI is used for well-defined tasks like reading documents or drafting entries, never to make consequential decisions on its own. Outputs are traceable to their source, low-confidence results are flagged, and usage costs are capped.',
+  },
+  {
+    title: 'Your data, handled carefully',
+    body: "We check privacy and data-handling requirements before any personal information goes to an external AI or cloud service, and we use only the data flows you've approved.",
+  },
+  {
+    title: 'Built to fail safely',
+    body: "When something goes wrong, it should be obvious. Errors are visible, harmful processing stops, the right person is told, and there's a manual fallback.",
+  },
+  {
+    title: 'Measured honestly',
+    body: "Where we measure benefits, we agree the starting point first and keep time freed up separate from cash saved. We won't claim results we can't show.",
+  },
+];
+---
+
+<ul class="principles" role="list">
+  {
+    principles.map((item, i) => (
+      <li class="principle" data-featured={i === 0 ? 'true' : undefined}>
+        <Heading class="principle__title">{item.title}</Heading>
+        <p class="principle__body">{item.body}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .principles {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .principle {
+    padding: var(--space-6);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  /* Short Signal Teal rule above each title: decoration only. */
+  .principle::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: var(--rule-width);
+    margin-bottom: var(--space-4);
+    background: var(--color-accent);
+  }
+
+  .principle__title {
+    font-size: var(--text-h3);
+  }
+
+  .principle__body {
+    margin-top: var(--space-2);
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+  }
+
+  /* Featured: people stay in charge, the principle everything else rests on. */
+  .principle[data-featured='true'] {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .principle[data-featured='true'] .principle__body {
+    color: var(--color-text-inverse-secondary);
+  }
+
+  @media (min-width: 720px) {
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+
+    .principle {
+      padding: var(--space-8);
+    }
+
+    .principle[data-featured='true'] {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .principle[data-featured='true'] {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: var(--space-12);
+      align-items: start;
+      padding: var(--space-12);
+    }
+
+    .principle[data-featured='true']::before {
+      grid-column: 1 / -1;
+    }
+
+    .principle[data-featured='true'] .principle__title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 500;
+      line-height: var(--leading-snug);
+      letter-spacing: -0.015em;
+    }
+
+    .principle[data-featured='true'] .principle__body {
+      margin-top: 0;
+      font-size: var(--text-lead);
+      line-height: 1.55;
+    }
+  }
+</style>

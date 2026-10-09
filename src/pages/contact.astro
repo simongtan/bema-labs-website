@@ -1,8 +1,15 @@
 ---
-// Scaffold stub. Owner: about-contact-labs (SITE-SPEC §6 and §8, COPY §5). Replace this file.
-// Use mailtoHref() from src/config/site.ts; while it returns null, omit the email block.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Mail from '../components/icons/Mail.astro';
+import { site, mailtoHref } from '../config/site';
+
+// Email block renders only once site.contactEmail is set (check:prelaunch blocks deploy until then).
+// Optional LinkedIn line renders only if site.linkedin is set.
+const href = mailtoHref();
+const email = site.contactEmail;
 ---
 
 <BaseLayout
@@ -14,4 +21,148 @@ import PageIntro from '../components/PageIntro.astro';
     title="Arrange a walkthrough"
     lead="Tell us about a process that's costing your team time. The first walkthrough is free, and there's no obligation."
   />
+
+  <Section labelledby="email-heading">
+    <div class="layout">
+      <div class="email">
+        <h2 id="email-heading">Email us</h2>
+        <p class="lead">
+          The quickest way to start is an email. The button below opens a short template you can
+          fill in.
+        </p>
+        {href && email && (
+          <div class="email__action">
+            <Button href={href}><Mail size={20} /> Email BEMA Labs</Button>
+            <p class="small">Or write to us directly at <strong>{email}</strong></p>
+          </div>
+        )}
+      </div>
+
+      <div class="stack">
+        <section aria-labelledby="include-heading">
+          <h2 id="include-heading">What to include</h2>
+          <ul class="list-check">
+            <li>A sentence or two on the process and what goes wrong</li>
+            <li>Who does the work today, and roughly how often</li>
+            <li>The systems involved, if you know them</li>
+          </ul>
+          <p class="note small">
+            Please don't send passwords, customer data or confidential documents by email. If we
+            need to look at something sensitive, we'll agree a secure way to share it.
+          </p>
+        </section>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="subtle" labelledby="next-heading">
+    <div class="layout">
+      <div>
+        <h2 id="next-heading">What happens next</h2>
+        <ol role="list" class="steps">
+          <li><span aria-hidden="true">1</span>We reply to arrange a time.</li>
+          <li>
+            <span aria-hidden="true">2</span>We walk through the process with you, on site or by
+            video, for about an hour.
+          </li>
+          <li>
+            <span aria-hidden="true">3</span>You get a short written summary and a recommended next
+            step. There's no obligation to go further.
+          </li>
+        </ol>
+      </div>
+      <div>
+        <h2 id="where-heading">Where we are</h2>
+        <p class="where">
+          Based in Bathurst, NSW. On-site walkthroughs across the Central West; video calls
+          elsewhere.
+        </p>
+        {site.linkedin && (
+          <p class="where">
+            Also on <a href={site.linkedin} rel="noopener">LinkedIn</a>
+          </p>
+        )}
+      </div>
+    </div>
+  </Section>
 </BaseLayout>
+
+<style>
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  .layout {
+    display: grid;
+    gap: var(--space-12);
+  }
+
+  @media (min-width: 960px) {
+    .layout {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+  }
+
+  .email .lead {
+    margin-top: var(--space-4);
+  }
+
+  .email__action {
+    margin-top: var(--space-6);
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+  }
+
+  .email__action :global(.btn) {
+    gap: var(--space-2);
+  }
+
+  .email__action strong {
+    overflow-wrap: anywhere;
+  }
+
+  .list-check {
+    margin-top: var(--space-4);
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-accent);
+    color: var(--color-text-secondary);
+  }
+
+  .steps {
+    margin-top: var(--space-6);
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-5, var(--space-4));
+  }
+
+  .steps li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  .steps span {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+    font-size: var(--text-small);
+    font-weight: 600;
+  }
+
+  .where {
+    margin-top: var(--space-4);
+  }
+</style>

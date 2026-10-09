@@ -1,8 +1,45 @@
 ---
-// Scaffold stub. Owner: about-contact-labs (SITE-SPEC §6, COPY §4). Replace this file.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
 import CtaBand from '../components/CtaBand.astro';
+import ArrowLink from '../components/ArrowLink.astro';
+
+// Copy-deck CONFIRM items (register #2, #5, #6) ship their safe defaults. The employer is unnamed
+// (#3) and the bema etymology line is omitted (#9). Notes live here so they never reach the HTML.
+
+const values = [
+  {
+    title: 'Precise',
+    body: 'Clear systems and careful decisions. Scope, tests and responsibilities are written down.',
+  },
+  {
+    title: 'Evidence before theatre',
+    body: 'We measure what happened and report it plainly, limits included.',
+  },
+  {
+    title: 'Inventive, made practical',
+    body: 'New ideas are welcome when they make the work simpler, not just more impressive.',
+  },
+  {
+    title: 'Dependable',
+    body: 'Trust earned through follow-through. We finish what we start and hand it over properly.',
+  },
+];
+
+const loop = [
+  { title: 'Build', body: 'Make something useful, at the smallest size that proves the point.' },
+  {
+    title: 'Experiment',
+    body: 'Test it honestly with real examples, including the awkward ones.',
+  },
+  { title: 'Measure', body: 'Compare what happened with where you started.' },
+  {
+    title: 'Adapt',
+    body: 'Keep what works, fix what doesn’t, and decide the next step on evidence.',
+  },
+];
 ---
 
 <BaseLayout
@@ -14,5 +51,164 @@ import CtaBand from '../components/CtaBand.astro';
     title="About BEMA Labs"
     lead="BEMA Labs is a Bathurst-based technology business. We build practical automation and software for operations teams, and we answer for what we build."
   />
+
+  <Section labelledby="founder-heading" width="narrow">
+    <h2 id="founder-heading">Simon Tan, founder</h2>
+    <div class="flow prose">
+      <p>
+        BEMA Labs is founder-led. When you work with us, you work directly with Simon, the engineer
+        who scopes, builds and supports your solution.
+      </p>
+      <p>
+        Simon’s background is seven years in electronics manufacturing, progressing from graduate
+        engineer to product development project manager. That work included introducing automated
+        production-test systems, among them a collaborative-robot final-test cell, along with the
+        logging, server infrastructure, business cases and change management needed to make them
+        stick. He has also built business workflows with Microsoft Power Automate.
+      </p>
+      <p>
+        His strengths are production systems, RF electronics and practical AI. His habits come from
+        the test bench: define pass and fail before you build, test the awkward cases, keep records,
+        and plan for what happens when something breaks.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="subtle" labelledby="stand-heading">
+    <div class="section-head">
+      <h2 id="stand-heading">What we stand for</h2>
+    </div>
+    <ul role="list" class="grid grid--4">
+      {values.map((v) => (
+        <Card as="li" title={v.title} headingLevel={3} accent>
+          <p>{v.body}</p>
+        </Card>
+      ))}
+    </ul>
+  </Section>
+
+  <Section labelledby="name-heading">
+    <div class="name">
+      <div class="name__text">
+        <h2 id="name-heading">The name</h2>
+        <p class="lead">
+          The name carries two ideas: accountability for the work we deliver, and the way we deliver
+          it.
+        </p>
+      </div>
+      <ol role="list" class="loop">
+        {loop.map((l, i) => (
+          <li class="loop__item">
+            <span class="loop__step" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{l.title}</h3>
+            <p>{l.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Section>
+
+  <Section tone="subtle" labelledby="clients-heading" width="narrow">
+    <h2 id="clients-heading">Client work comes first</h2>
+    <div class="flow prose">
+      <p>Our main work is helping businesses improve the processes they run every day.</p>
+      <p>
+        BEMA Labs also develops a small number of its own software tools, usually from problems
+        we’ve seen more than once. That work never takes priority over a client commitment.
+      </p>
+      <p>
+        We take on a small number of engagements at a time, so each one gets proper attention.
+      </p>
+      <p><ArrowLink href="/labs/">More about Labs</ArrowLink></p>
+    </div>
+  </Section>
+
+  <Section labelledby="where-heading" width="narrow">
+    <h2 id="where-heading">Where we are</h2>
+    <p class="prose">
+      Based in Bathurst, NSW, working with businesses across the Central West, the Central
+      Tablelands and further afield by video.
+    </p>
+  </Section>
+
   <CtaBand />
 </BaseLayout>
+
+<style>
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  .prose {
+    margin-top: var(--space-6);
+    max-width: 42rem;
+  }
+
+  .prose > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .grid--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .grid--4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .name {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .loop {
+    display: grid;
+    gap: var(--space-6) var(--space-8);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 560px) {
+    .loop {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .name {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+  }
+
+  .loop__step {
+    display: block;
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-brand);
+  }
+
+  .loop__item h3 {
+    margin-top: var(--space-1);
+    font-size: var(--text-h3);
+  }
+
+  .loop__item p {
+    margin-top: var(--space-2);
+    color: var(--color-text-secondary);
+  }
+</style>

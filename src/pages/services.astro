@@ -1,11 +1,27 @@
 ---
-// Scaffold stub. Owner: services-work (SITE-SPEC §6, COPY §2). Replace this file.
-// Keep the #ways-to-work anchor: other pages link to it.
+// Services (SITE-SPEC §6, COPY §2). Owner: services-work.
+// Keep the #ways-to-work anchor: home and other pages link to it.
+// No products, prices or client names on this page (SITE-SPEC §1).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import Section from '../components/Section.astro';
 import EngagementLadder from '../components/EngagementLadder.astro';
 import CtaBand from '../components/CtaBand.astro';
+import ProblemCards from '../components/services/ProblemCards.astro';
+import ServiceList from '../components/services/ServiceList.astro';
+
+const handover = [
+  'Every build ends with the source, configuration, documentation and a handover session.',
+  'Power Platform solutions are handed over as editable source, not just a packaged deployment.',
+  'Whether or not you take a care plan, you keep a working, documented solution that another developer could maintain.',
+];
+
+const limits = [
+  'Safety-critical control systems, or anything where an automated error could hurt someone.',
+  'Automation that commits money, materials or people without a human sign-off.',
+  'Whole-of-business system replacements.',
+  "Round-the-clock IT support. We're happy to work alongside your IT provider.",
+];
 ---
 
 <BaseLayout
@@ -17,6 +33,25 @@ import CtaBand from '../components/CtaBand.astro';
     title="Automation, integrations and dashboards for operations teams"
     lead="We improve one real workflow at a time, using the tools you already own wherever we can. Most work starts in Microsoft 365 and Power Platform, with custom software only where configuration isn't enough."
   />
+
+  <Section tone="subtle" labelledby="helps-heading">
+    <div class="section-head">
+      <h2 id="helps-heading">Where automation helps</h2>
+      <p>
+        Most operations teams don't need a new system. They need the systems they already have to stop
+        depending on someone re-typing, chasing and checking.
+      </p>
+    </div>
+    <ProblemCards />
+  </Section>
+
+  <Section labelledby="build-heading">
+    <div class="section-head">
+      <h2 id="build-heading">What we build</h2>
+    </div>
+    <ServiceList />
+  </Section>
+
   <Section id="ways-to-work" tone="subtle" labelledby="ways-to-work-heading">
     <div class="section-head">
       <h2 id="ways-to-work-heading">Ways to work with us</h2>
@@ -25,6 +60,125 @@ import CtaBand from '../components/CtaBand.astro';
       </p>
     </div>
     <EngagementLadder variant="detailed" />
+    <div class="licences">
+      <h2 id="licences-heading" class="licences__title">Licences and running costs</h2>
+      <p class="licences__body">
+        Some automations need extra Microsoft or third-party licences. We check what you're already
+        entitled to during discovery, show any licence costs as a separate line before you commit, and
+        keep subscriptions in your name.
+      </p>
+    </div>
   </Section>
+
+  <Section labelledby="handover-heading">
+    <div class="split">
+      <div class="split__head">
+        <h2 id="handover-heading">Handover is built in</h2>
+      </div>
+      <ul class="list-check handover" role="list">
+        {handover.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="subtle" labelledby="limits-heading">
+    <div class="split">
+      <div class="section-head split__head">
+        <h2 id="limits-heading">What we don't do</h2>
+        <p>Being clear about limits is part of doing the job well.</p>
+      </div>
+      <ul class="limits" role="list">
+        {limits.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </Section>
+
   <CtaBand />
 </BaseLayout>
+
+<style>
+  /* Licence note: part of #ways-to-work, set apart as a panel under the ladder. */
+  .licences {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-12);
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .licences__title {
+    font-family: var(--font-text);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+
+  .licences__body {
+    max-width: var(--measure);
+    color: var(--color-text-secondary);
+  }
+
+  /* Heading on the left, content on the right from 960px. */
+  .split {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .split__head {
+    margin-bottom: 0;
+  }
+
+  .handover {
+    gap: var(--space-6);
+    max-width: 40rem;
+    font-size: var(--text-lead);
+    line-height: 1.5;
+  }
+
+  .limits {
+    list-style: none;
+    max-width: 40rem;
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .limits > li {
+    position: relative;
+    padding-block: var(--space-4);
+    padding-left: 2rem;
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  /* Neutral dash marker: these are limits, not features. */
+  .limits > li::before {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    top: calc(var(--space-4) + 0.8em - 1px);
+    width: 0.875rem;
+    height: 2px;
+    background: var(--color-text-secondary);
+  }
+
+  @media (min-width: 720px) {
+    .licences {
+      padding: var(--space-8);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .licences {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    .split {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-16);
+      align-items: start;
+    }
+  }
+</style>

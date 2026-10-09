@@ -1,0 +1,59 @@
+---
+/**
+ * "Who you'll work with" (SITE-SPEC §5 #6, COPY §1.6). Owned by home.
+ * White section with a top border (it follows another white section). No photo in v1, and the
+ * employer is not named. Heading left, text right from 960 px.
+ */
+import Section from '../Section.astro';
+import ArrowLink from '../ArrowLink.astro';
+---
+
+<Section divider labelledby="founder-heading">
+  <div class="founder">
+    <h2 id="founder-heading" class="founder__heading">Who you'll work with</h2>
+    <div class="founder__body">
+      {/* [CONFIRM] COPY §1.6 founder background wording (register #2): ships as written. Source-only marker. */}
+      <p class="founder__text">
+        BEMA Labs is founder-led. You work directly with Simon Tan, the engineer who scopes and
+        builds your solution. His background is seven years in electronics manufacturing, including
+        automated production testing and business workflows built with Microsoft Power Automate.
+      </p>
+      <ArrowLink href="/about/">About BEMA Labs</ArrowLink>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .founder {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  /* The section's single teal intervention: a short Signal Teal rule above the heading. */
+  .founder__heading::before {
+    content: '';
+    display: block;
+    width: var(--space-12);
+    height: 3px;
+    margin-bottom: var(--space-4);
+    background: var(--color-accent);
+  }
+
+  .founder__body > :global(* + *) {
+    margin-top: var(--space-4);
+  }
+
+  .founder__text {
+    max-width: 60ch;
+    font-size: var(--text-lead);
+    line-height: 1.55;
+  }
+
+  @media (min-width: 960px) {
+    .founder {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: var(--space-12);
+      align-items: start;
+    }
+  }
+</style>

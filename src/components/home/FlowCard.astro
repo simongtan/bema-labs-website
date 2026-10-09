@@ -1,0 +1,137 @@
+---
+/**
+ * "A typical flow" card in the home hero (COPY §1.1, SITE-SPEC §11). Owned by home.
+ * An ordered list with a visible heading. The approval step is highlighted with a filled marker,
+ * a tinted row and bold text, so the cue is never colour alone. Numbers are visual only
+ * (aria-hidden); the <ol> carries the numbering for assistive tech.
+ */
+const steps = [
+  { text: 'Order or request arrives' },
+  { text: 'Details checked for gaps' },
+  { text: 'Draft prepared' },
+  { text: 'You review and approve', approve: true },
+  { text: 'Sent to your system' },
+];
+---
+
+<div class="flow-card">
+  <h2 id="flow-card-heading" class="flow-card__heading">A typical flow</h2>
+  <ol class="flow-card__steps" role="list" aria-labelledby="flow-card-heading">
+    {
+      steps.map((step, i) => (
+        <li class="flow-card__step" data-approve={step.approve ? 'true' : undefined}>
+          <span class="flow-card__num" aria-hidden="true">
+            {i + 1}
+          </span>
+          {step.approve ? (
+            <strong class="flow-card__text">{step.text}</strong>
+          ) : (
+            <span class="flow-card__text">{step.text}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+  <p class="flow-card__caption">Illustrative. Automation prepares and checks; people approve.</p>
+</div>
+
+<style>
+  .flow-card {
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow:
+      0 1px 2px rgb(11 18 32 / 0.04),
+      0 20px 40px -24px rgb(11 18 32 / 0.2);
+  }
+
+  .flow-card__heading {
+    font-family: var(--font-text);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+
+  .flow-card__steps {
+    list-style: none;
+    margin-top: var(--space-4);
+  }
+
+  .flow-card__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    column-gap: var(--space-3);
+    align-items: start;
+    margin-inline: calc(-1 * var(--space-3));
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Connector from this marker down to the next one. Sits above row tints, below markers. */
+  .flow-card__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: calc(var(--space-3) + 1rem - 1px);
+    top: calc(var(--space-2) + 2rem);
+    bottom: calc(-1 * var(--space-2));
+    width: 2px;
+    background: var(--color-border);
+  }
+
+  .flow-card__num {
+    position: relative;
+    z-index: 2;
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: var(--rule-width) solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-bg);
+    font-size: var(--text-small);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .flow-card__text {
+    padding-top: 0.2rem;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* The step people own: filled marker, tinted row, bold text. */
+  .flow-card__step[data-approve] {
+    background: #E6F1F2;
+  }
+
+  .flow-card__step[data-approve] .flow-card__num {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  .flow-card__step[data-approve] .flow-card__text {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .flow-card__caption {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: var(--border-width) solid var(--color-border);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 720px) {
+    .flow-card {
+      padding: var(--space-8);
+    }
+  }
+</style>

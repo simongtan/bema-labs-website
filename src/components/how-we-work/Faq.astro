@@ -1,0 +1,138 @@
+---
+/**
+ * "Questions people ask" (COPY §3.5): nine Q&As as native <details>/<summary>, zero JS.
+ * The section's H2 lives on the page; the summary text acts as each question's heading.
+ */
+const faqs = [
+  {
+    q: 'Do we need to replace our existing systems?',
+    a: 'Usually not. We start with what you already have. Often the answer is connecting or configuring existing tools rather than adding new ones.',
+  },
+  {
+    q: 'Do you work with Microsoft 365 and Power Platform?',
+    a: 'Yes. If you already use Microsoft 365, Power Platform is often the first thing we look at. We check your licences before recommending anything, because not every scenario is covered by a standard subscription.',
+  },
+  {
+    q: 'How is the price set?',
+    a: 'After the walkthrough, we propose a fixed price for a defined scope, or a fixed-fee feasibility assessment if there are open questions. You see the full cost, including any licences, before you commit.',
+  },
+  {
+    q: 'Who owns what you build?',
+    a: "You own your data and the work built specifically for you. If a solution uses general-purpose components we've built, you get a permanent licence to use and modify them for your business. The agreement spells this out.",
+  },
+  {
+    q: "What happens if you're unavailable?",
+    a: "Solutions live in your accounts where practical and come with documentation, source and a handover session, so another developer could maintain them. We don't build anything that only works while we're around.",
+  },
+  {
+    q: 'Is our data safe with AI?',
+    a: "We only use AI where it genuinely helps, through services you've approved, and we check privacy requirements before any personal information is involved. A person reviews AI output before anyone relies on it.",
+  },
+  {
+    // [CONFIRM] COPY register #5: on-site Central West, video elsewhere. Ships as the default.
+    q: 'Where do you work?',
+    a: "We're based in Bathurst and do walkthroughs on site across the Central West. For businesses further afield, we can work by video call.",
+  },
+  {
+    q: "Will you tell us if we don't need you?",
+    a: 'Yes. Sometimes the best answer is a setting you already have, a product you can buy off the shelf, or leaving a process as it is.',
+  },
+  {
+    q: 'What size of business do you work with?',
+    a: 'Typically owner-managed and mid-sized operations where one or two people carry a lot of the admin load. What matters most is a clear process owner and a problem worth solving, not headcount.',
+  },
+];
+---
+
+<div class="faq">
+  {
+    faqs.map((item) => (
+      <details class="faq__item">
+        <summary class="faq__q">
+          <span class="faq__text">{item.q}</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="faq__a">
+          <p>{item.a}</p>
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .faq__item {
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    min-height: 44px;
+    padding-block: calc(var(--space-4) + var(--space-1));
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q:hover .faq__text {
+    color: var(--color-brand-hover);
+  }
+
+  /* Plus that turns into a minus when open. Colour plus shape, never colour alone. */
+  .faq__icon {
+    position: relative;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-bg);
+  }
+
+  .faq__icon::before,
+  .faq__icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.75rem;
+    height: 2px;
+    background: var(--color-brand);
+    transform: translate(-50%, -50%);
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .faq__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .faq__item[open] .faq__icon::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .faq__a {
+    padding-bottom: var(--space-6);
+    padding-right: var(--space-12);
+    max-width: var(--measure);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 479px) {
+    .faq__a {
+      padding-right: 0;
+    }
+  }
+</style>

@@ -1,0 +1,178 @@
+---
+/**
+ * "What we build" (COPY §2.3): three core services with example lists, then "Also available".
+ * The section's H2 lives on the page; this renders the H3s and below.
+ */
+import ServiceIcon from './ServiceIcon.astro';
+
+const services = [
+  {
+    icon: 'workflow',
+    title: 'Workflow automation',
+    body: "Approvals, notifications, document handling and data entry, automated with the tools you already pay for. Where AI helps, such as reading supplier documents or drafting entries, a person reviews the result before it's used.",
+    items: [
+      'Order and request intake with completeness checks',
+      'Approval routing with reminders and a clear record',
+      'Document and email processing with human review',
+    ],
+  },
+  {
+    icon: 'integrations',
+    title: 'Integrations and data hand-offs',
+    body: "We connect systems that don't talk to each other, using supported imports, exports and APIs, so information is entered once and stays consistent.",
+    items: [
+      'Data moving between Microsoft 365, accounting, and job or production systems',
+      'Scheduled imports and exports with error reporting',
+      'Checks that catch mismatches before they spread',
+    ],
+  },
+  {
+    icon: 'dashboards',
+    title: 'Dashboards and reporting',
+    body: 'Reports that build themselves from your existing systems, with each number defined and traceable to its source.',
+    items: [
+      'Operational dashboards in Power BI or similar tools',
+      'Exception lists for late, changed or incomplete work',
+      'Clear definitions, so everyone reads the numbers the same way',
+    ],
+  },
+] as const;
+
+const alsoAvailable = [
+  {
+    lead: 'Custom web and mobile apps.',
+    body: "When configuration and integration can't do the job, we build focused applications around your process, not the other way round.",
+  },
+  {
+    lead: 'Computer vision and connected sensors.',
+    body: 'Considered case by case, for well-bounded problems where the benefit is clear.',
+  },
+];
+---
+
+<div class="build">
+  <ul class="services" role="list">
+    {
+      services.map((service) => (
+        <li class="service">
+          <span class="service__icon">
+            <ServiceIcon name={service.icon} size={24} />
+          </span>
+          <h3 class="service__title">{service.title}</h3>
+          <p class="service__body">{service.body}</p>
+          <ul class="list-bullet service__items" role="list">
+            {service.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="also">
+    <h3 class="also__title">Also available</h3>
+    <ul class="also__list" role="list">
+      {
+        alsoAvailable.map((item) => (
+          <li>
+            <strong>{item.lead}</strong> {item.body}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .services {
+    list-style: none;
+    display: grid;
+    gap: var(--space-12);
+  }
+
+  .service {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-sm);
+    background: #E6F1F2;
+    color: var(--color-brand);
+  }
+
+  .service__title {
+    margin-top: var(--space-6);
+    font-size: var(--text-h3);
+  }
+
+  .service__body {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  .service__items {
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: var(--border-width) solid var(--color-border);
+    font-size: var(--text-small);
+  }
+
+  .also {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-16);
+    padding: var(--space-6);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .also__title {
+    font-size: var(--text-h3);
+  }
+
+  .also__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .also__list strong {
+    color: var(--color-text);
+  }
+
+  @media (min-width: 720px) {
+    .also {
+      padding: var(--space-8);
+    }
+
+    .also__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .services {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-8) var(--space-12);
+    }
+
+    /* Push the example lists to a shared baseline across the three columns. */
+    .service__body {
+      flex: 1 0 auto;
+    }
+
+    .also {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+  }
+</style>

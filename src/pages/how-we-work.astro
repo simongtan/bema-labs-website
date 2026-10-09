@@ -1,13 +1,20 @@
 ---
-// Scaffold stub. Owner: services-work (SITE-SPEC §6, COPY §3). Replace this file.
+// How we work (SITE-SPEC §6, COPY §3). Owner: services-work.
 // Keep the #principles, #examples and #faq anchors: other pages link to them.
+// Examples are labelled illustrative patterns, not client projects. No prospect is named or identifiable.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import Section from '../components/Section.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import IllustrativeExample from '../components/IllustrativeExample.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { examples } from '../data/examples';
+import Principles from '../components/how-we-work/Principles.astro';
+import Faq from '../components/how-we-work/Faq.astro';
+import { getExample, type Example } from '../data/examples';
+
+// Order fixed by COPY §3.4.
+const exampleOrder: Example['id'][] = ['order-intake', 'supplier-documents', 'approvals', 'weekly-report'];
+const examples = exampleOrder.map((id) => getExample(id));
 ---
 
 <BaseLayout
@@ -19,18 +26,22 @@ import { examples } from '../data/examples';
     title="How we work"
     lead="Precise scope, honest testing and work you can run without us. The process scales to the job, so a small automation gets a short document, not a binder."
   />
-  <Section labelledby="process-heading">
+
+  <Section tone="subtle" labelledby="process-heading">
     <div class="section-head">
       <h2 id="process-heading">The process</h2>
     </div>
     <ProcessSteps variant="detailed" />
   </Section>
-  <Section id="principles" tone="subtle" labelledby="principles-heading">
+
+  <Section id="principles" labelledby="principles-heading">
     <div class="section-head">
       <h2 id="principles-heading">Principles</h2>
     </div>
+    <Principles />
   </Section>
-  <Section id="examples" labelledby="examples-heading">
+
+  <Section id="examples" tone="subtle" labelledby="examples-heading">
     <div class="section-head">
       <h2 id="examples-heading">Illustrative examples</h2>
       <p>
@@ -38,21 +49,55 @@ import { examples } from '../data/examples';
         and what we'd test before calling the job done.
       </p>
     </div>
-    <div class="stub-examples">
+    <div class="examples">
       {examples.map((example) => <IllustrativeExample example={example} variant="compact" />)}
     </div>
   </Section>
-  <Section id="faq" tone="subtle" labelledby="faq-heading">
-    <div class="section-head">
-      <h2 id="faq-heading">Questions people ask</h2>
+
+  <Section id="faq" labelledby="faq-heading">
+    <div class="split">
+      <div class="section-head split__head">
+        <h2 id="faq-heading">Questions people ask</h2>
+      </div>
+      <Faq />
     </div>
   </Section>
+
   <CtaBand />
 </BaseLayout>
 
 <style>
-  .stub-examples {
+  .examples {
     display: grid;
     gap: var(--space-6);
+  }
+
+  /* FAQ: heading on the left (kept in view while reading), questions on the right from 960px. */
+  .split {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .split__head {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 720px) {
+    .examples {
+      gap: var(--space-8);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .split {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    .split__head {
+      position: sticky;
+      top: var(--space-8);
+    }
   }
 </style>

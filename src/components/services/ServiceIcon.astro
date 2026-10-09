@@ -1,0 +1,58 @@
+---
+/**
+ * Line icons for the three core services. Decorative only (aria-hidden), stroke 1.75,
+ * currentColor, matching src/components/icons/*.
+ */
+interface Props {
+  name: 'workflow' | 'integrations' | 'dashboards';
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 24, class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {
+    name === 'workflow' && (
+      <>
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        <path d="M10 6.5h5a2.5 2.5 0 0 1 2.5 2.5v5" />
+        <path d="m15 11.5 2.5 2.5 2.5-2.5" />
+      </>
+    )
+  }
+  {
+    name === 'integrations' && (
+      <>
+        <path d="M4 8h15" />
+        <path d="m15 4 4 4-4 4" />
+        <path d="M20 16H5" />
+        <path d="m9 12-4 4 4 4" />
+      </>
+    )
+  }
+  {
+    name === 'dashboards' && (
+      <>
+        <path d="M4 4v15a1 1 0 0 0 1 1h15" />
+        <path d="M9 16v-4" />
+        <path d="M13.5 16V8" />
+        <path d="M18 16v-6" />
+      </>
+    )
+  }
+</svg>

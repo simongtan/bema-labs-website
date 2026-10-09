@@ -1,23 +1,80 @@
 ---
-// Scaffold stub. Owner: home (SITE-SPEC §5, COPY §1). Replace this file with the full landing page.
+// Owner: home (SITE-SPEC §5, COPY §1). The section order is fixed: hero, proof slot, process,
+// ways to work, commitments, founder, CTA band. Nothing about products appears on this page.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageIntro from '../components/PageIntro.astro';
-import Button from '../components/Button.astro';
+import Section from '../components/Section.astro';
+import ArrowLink from '../components/ArrowLink.astro';
+import IllustrativeExample from '../components/IllustrativeExample.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import EngagementLadder from '../components/EngagementLadder.astro';
+import Commitments from '../components/Commitments.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Hero from '../components/home/Hero.astro';
+import FounderStrip from '../components/home/FounderStrip.astro';
+import { getExample } from '../data/examples';
+
+// Proof slot: a labelled illustrative pattern, not a client project (SITE-SPEC §1, §5 #2).
+const orderIntake = getExample('order-intake');
 ---
 
 <BaseLayout
   title="BEMA Labs | Practical automation for operations teams"
   description="Workflow automation, integrations and dashboards for manufacturing, construction and operations businesses in Bathurst and the Central West NSW."
 >
-  <PageIntro
-    eyebrow="Workflow automation · Integrations · Dashboards"
-    title="Practical automation for the admin that slows your operation down."
-    lead="BEMA Labs designs and builds workflow automation, integrations and dashboards for manufacturing, construction and other operations businesses. We start with how the work is really done, agree the scope before we build, and keep your people in charge of the decisions that matter."
-  >
-    <div>
-      <Button href="/contact/">Arrange a walkthrough</Button>
+  <Hero />
+
+  <Section tone="subtle" labelledby="proof-heading">
+    <div class="section-head">
+      <h2 id="proof-heading">What this looks like in practice</h2>
+      <p>A common pattern in businesses that take orders by email and phone.</p>
     </div>
-  </PageIntro>
+    <div class="proof">
+      <IllustrativeExample example={orderIntake} variant="full" headingLevel={3} />
+    </div>
+    <p class="more"><ArrowLink href="/how-we-work/#examples">More examples</ArrowLink></p>
+  </Section>
+
+  <Section labelledby="process-heading">
+    <div class="section-head">
+      <h2 id="process-heading">How we work</h2>
+      <p>
+        A short, disciplined process, sized to the job. You know what's being built, how it will be
+        tested and what it costs before any work starts.
+      </p>
+    </div>
+    <ProcessSteps variant="summary" headingLevel={3} />
+    <p class="more"><ArrowLink href="/how-we-work/">The full process</ArrowLink></p>
+  </Section>
+
+  <Section tone="subtle" labelledby="ways-heading">
+    <div class="section-head">
+      <h2 id="ways-heading">Ways to work with us</h2>
+      <p>Start small. Each step stands on its own, and you decide whether to take the next one.</p>
+    </div>
+    <EngagementLadder variant="summary" headingLevel={3} />
+    <p class="more"><ArrowLink href="/services/#ways-to-work">Services in detail</ArrowLink></p>
+  </Section>
+
+  <Section labelledby="commitments-heading">
+    <div class="section-head">
+      <h2 id="commitments-heading">What you can count on</h2>
+    </div>
+    <Commitments headingLevel={3} />
+  </Section>
+
+  <FounderStrip />
+
   <CtaBand />
 </BaseLayout>
+
+<style>
+  .more {
+    margin-top: var(--space-8);
+  }
+
+  /* The full example sits under this section's H2, so its title steps down a size to keep the
+     hierarchy clear. The extra selector weight outranks the component's own scoped rule. */
+  .proof :global(.example[data-variant='full'] .example__head .example__title) {
+    font-size: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
+  }
+</style>
