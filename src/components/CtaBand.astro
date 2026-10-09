@@ -1,0 +1,91 @@
+---
+/**
+ * Closing call to action on Carbon (SITE-SPEC §5 #7). Default copy from COPY §0.
+ * Every CTA goes to /contact/, never straight to mailto.
+ */
+import Button from './Button.astro';
+import { withBase } from '../lib/url';
+
+interface Props {
+  heading?: string;
+  body?: string;
+  buttonLabel?: string;
+  href?: string;
+}
+
+const {
+  heading = "Have a process that's costing your team time?",
+  body = "Show us how it works today. The first walkthrough is free, and you'll get a short written summary with a straight recommendation, even if that recommendation is to leave it as it is.",
+  buttonLabel = 'Arrange a walkthrough',
+  href = '/contact/',
+} = Astro.props;
+---
+
+<section class="cta-band tone-inverse" aria-labelledby="cta-band-heading">
+  <img
+    class="cta-band__motif"
+    src={withBase('/brand/bema-symbol-outline.svg')}
+    alt=""
+    aria-hidden="true"
+    width="420"
+    height="420"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="container cta-band__inner">
+    <h2 id="cta-band-heading" class="cta-band__heading">{heading}</h2>
+    <p class="cta-band__body">{body}</p>
+    <div class="cta-band__action">
+      <Button href={href} variant="inverse">{buttonLabel}</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    padding-block: var(--space-section);
+  }
+
+  .cta-band__inner {
+    position: relative;
+  }
+
+  .cta-band__heading {
+    max-width: 22ch;
+  }
+
+  .cta-band__body {
+    margin-top: var(--space-4);
+    max-width: 60ch;
+    color: var(--color-text-inverse-secondary);
+    font-size: var(--text-lead);
+    line-height: 1.55;
+  }
+
+  .cta-band__action {
+    margin-top: var(--space-8);
+  }
+
+  /* Brand symbol, cropped at the right edge at low contrast. Decorative only. */
+  .cta-band__motif {
+    display: none;
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    width: 420px;
+    height: 420px;
+    transform: translateY(-50%);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  @media (min-width: 960px) {
+    .cta-band__motif {
+      display: block;
+    }
+  }
+</style>

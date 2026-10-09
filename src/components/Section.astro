@@ -1,0 +1,89 @@
+---
+/**
+ * Page section with consistent vertical padding and a centred container.
+ * tone: default (white), subtle (Mist), inverse (Carbon).
+ * divider: adds a top border (e.g. two white sections in a row).
+ * width: 'narrow' limits content to a reading measure.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  id?: string;
+  tone?: 'default' | 'subtle' | 'inverse';
+  labelledby?: string;
+  divider?: boolean;
+  width?: 'default' | 'narrow';
+}
+
+const {
+  id,
+  tone = 'default',
+  labelledby,
+  divider = false,
+  width = 'default',
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledby}
+  class:list={['section', `tone-${tone}`, { 'section--divider': divider }, className]}
+  {...rest}
+>
+  <div class:list={['container', { 'section__narrow': width === 'narrow' }]}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: var(--space-section);
+  }
+
+  .tone-default {
+    background: var(--color-bg);
+  }
+
+  .tone-subtle {
+    background: var(--color-bg-subtle);
+  }
+
+  .tone-inverse {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+  }
+
+  .section--divider .container {
+    border-top: var(--border-width) solid var(--color-border);
+    padding-top: var(--space-section);
+  }
+
+  .section--divider {
+    padding-top: 0;
+  }
+
+  .section__narrow {
+    max-width: calc(46rem + 2 * var(--container-pad));
+  }
+
+  /* Links and secondary text on Carbon */
+  .tone-inverse :global(a:not(.btn)) {
+    color: var(--color-accent);
+  }
+
+  .tone-inverse :global(a:not(.btn):hover) {
+    color: var(--color-text-inverse);
+  }
+
+  .tone-inverse :global(.section-head p),
+  .tone-inverse :global(.lead),
+  .tone-inverse :global(.text-secondary) {
+    color: var(--color-text-inverse-secondary);
+  }
+
+  .tone-inverse :global(.eyebrow) {
+    color: var(--color-accent);
+  }
+</style>

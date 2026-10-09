@@ -1,0 +1,28 @@
+---
+// Owner: scaffold (SITE-SPEC §3, COPY §8). noindex; excluded from the sitemap.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import ArrowLink from '../components/ArrowLink.astro';
+---
+
+<BaseLayout title="Page not found | BEMA Labs" description="The page you're looking for isn't here." noindex>
+  <PageIntro
+    title="Page not found"
+    lead="The page you're looking for isn't here. It may have moved, or the link may be wrong."
+  >
+    <ul class="not-found-links" role="list">
+      <li><ArrowLink href="/">Go to the home page</ArrowLink></li>
+      <li><ArrowLink href="/services/">See our services</ArrowLink></li>
+      <li><ArrowLink href="/contact/">Arrange a walkthrough</ArrowLink></li>
+    </ul>
+  </PageIntro>
+</BaseLayout>
+
+<style>
+  .not-found-links {
+    list-style: none;
+    display: grid;
+    gap: var(--space-1);
+    padding-top: var(--space-4);
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+// Scaffold stub. Owner: home (SITE-SPEC §5, COPY §1). Replace this file with the full landing page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<BaseLayout
+  title="BEMA Labs | Practical automation for operations teams"
+  description="Workflow automation, integrations and dashboards for manufacturing, construction and operations businesses in Bathurst and the Central West NSW."
+>
+  <PageIntro
+    eyebrow="Workflow automation · Integrations · Dashboards"
+    title="Practical automation for the admin that slows your operation down."
+    lead="BEMA Labs designs and builds workflow automation, integrations and dashboards for manufacturing, construction and other operations businesses. We start with how the work is really done, agree the scope before we build, and keep your people in charge of the decisions that matter."
+  >
+    <div>
+      <Button href="/contact/">Arrange a walkthrough</Button>
+    </div>
+  </PageIntro>
+  <CtaBand />
+</BaseLayout>

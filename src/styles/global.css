@@ -1,0 +1,300 @@
+/* Global base styles and small utilities. Page-specific styles belong in the page's own <style> block. */
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--space-6);
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+li,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+/* ---------- Base ---------- */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: inherit;
+  text-wrap: balance;
+}
+
+h1,
+.h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+h2,
+.h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.015em;
+}
+
+h3,
+.h3 {
+  font-family: var(--font-text);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+
+h4,
+.h4 {
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+/* Links in running text are underlined; colour is never the only cue. */
+a {
+  color: var(--color-brand);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--color-brand-hover);
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.tone-inverse :focus-visible,
+.site-footer :focus-visible {
+  outline-color: var(--color-focus-inverse);
+}
+
+::selection {
+  background: #CCE5E6;
+  color: var(--color-text);
+}
+
+/* ---------- Layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+/* Vertical rhythm: .flow > * + * gets consistent space. Override with --flow-space. */
+.flow > * + * {
+  margin-top: var(--flow-space, 1em);
+}
+
+/* ---------- Type utilities ---------- */
+.eyebrow {
+  display: block;
+  font-family: var(--font-text);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  max-width: var(--measure);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.small {
+  font-size: var(--text-small);
+}
+
+/* Section heading block: H2 plus optional intro paragraph. */
+.section-head {
+  max-width: 46rem;
+  margin-bottom: var(--space-8);
+}
+
+.section-head > * + * {
+  margin-top: var(--space-3);
+}
+
+.section-head p {
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Lists ---------- */
+.list-check {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.list-check > li {
+  position: relative;
+  padding-left: 1.75em;
+}
+
+.list-check > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3em;
+  width: 1.1em;
+  height: 1.1em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23006B73' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.tone-inverse .list-check > li::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230EA5A0' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+
+.list-bullet {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.list-bullet > li {
+  position: relative;
+  padding-left: 1.25em;
+}
+
+.list-bullet > li::before {
+  content: "";
+  position: absolute;
+  left: 0.15em;
+  top: 0.68em;
+  width: 0.4em;
+  height: 0.4em;
+  background: var(--color-brand);
+}
+
+/* ---------- Accessibility ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: none;
+  color: var(--color-text-inverse);
+  outline-color: var(--color-focus-inverse);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

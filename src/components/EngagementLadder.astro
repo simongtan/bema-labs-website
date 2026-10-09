@@ -1,0 +1,148 @@
+---
+/**
+ * The four public engagement steps (data: src/data/engagement.ts). No prices are shown.
+ * variant: summary (tag, title, summary) | detailed (adds "You get" lists).
+ * The footnote on prices and licences renders in both variants.
+ */
+import { engagementSteps, engagementFootnote } from '../data/engagement';
+
+interface Props {
+  variant?: 'summary' | 'detailed';
+  headingLevel?: 2 | 3;
+}
+
+const { variant = 'summary', headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+---
+
+<div class="ladder" data-variant={variant}>
+  <ol class="ladder__list" role="list">
+    {
+      engagementSteps.map((step, i) => (
+        <li class="ladder__step" data-step={step.id}>
+          <div class="ladder__top">
+            <span class="ladder__num" aria-hidden="true">
+              {i + 1}
+            </span>
+            <span class="ladder__tag">{step.tag}</span>
+          </div>
+          <Heading class="ladder__title">{step.title}</Heading>
+          <p class="ladder__summary">{step.summary}</p>
+          {variant === 'detailed' && (
+            <div class="ladder__get">
+              <p class="ladder__label">You get</p>
+              <ul class="list-check" role="list">
+                {step.youGet.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+  <p class="ladder__footnote">{engagementFootnote}</p>
+</div>
+
+<style>
+  .ladder__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+
+  .ladder__step {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .ladder__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .ladder__num {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: var(--rule-width) solid var(--color-accent);
+    border-radius: 50%;
+    font-size: var(--text-small);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .ladder__tag {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: #E6F1F2;
+    border-radius: 999px;
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    white-space: nowrap;
+  }
+
+  .ladder__title {
+    font-size: var(--text-h3);
+  }
+
+  .ladder__summary {
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  .ladder__get {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: var(--border-width) solid var(--color-border);
+    font-size: var(--text-small);
+  }
+
+  .ladder__label {
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+  }
+
+  .ladder__footnote {
+    margin-top: var(--space-6);
+    max-width: var(--measure);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1080px) {
+    .ladder[data-variant='summary'] .ladder__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 720px) {
+    .ladder[data-variant='detailed'] .ladder__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+
+    .ladder[data-variant='detailed'] .ladder__step {
+      padding: var(--space-8);
+    }
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+/**
+ * Generic content card (bordered, white). Use for problem cards, service cards, values, principles.
+ * Optional title is rendered as a heading at `headingLevel`; anything else goes in the slot.
+ * `as` lets a card be a list item inside a <ul role="list">.
+ */
+interface Props {
+  title?: string;
+  headingLevel?: 2 | 3 | 4;
+  as?: 'div' | 'li' | 'article';
+  tone?: 'default' | 'subtle';
+  accent?: boolean;
+}
+
+const { title, headingLevel = 3, as: Tag = 'div', tone = 'default', accent = false } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
+---
+
+<Tag class="card" data-tone={tone} data-accent={accent ? 'true' : undefined}>
+  {title && <Heading class="card__title">{title}</Heading>}
+  <div class="card__body">
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .card[data-tone='subtle'] {
+    background: var(--color-bg-subtle);
+  }
+
+  .card[data-accent='true'] {
+    border-top: 3px solid var(--color-accent);
+  }
+
+  .card__title {
+    font-size: var(--text-h3);
+  }
+
+  .card__body {
+    color: var(--color-text-secondary);
+  }
+
+  .card__title + .card__body {
+    margin-top: var(--space-2);
+  }
+
+  .card__body > :global(* + *) {
+    margin-top: var(--space-3);
+  }
+
+  @media (min-width: 720px) {
+    .card {
+      padding: var(--space-8);
+    }
+  }
+</style>

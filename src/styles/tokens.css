@@ -1,0 +1,109 @@
+/*
+ * Brand tokens, copied verbatim from the BEMA Labs brand pack
+ * (04_Developer/bema-brand-tokens.css). Do not edit these values.
+ */
+:root {
+  --bema-mineral-teal: #006B73;
+  --bema-signal-teal: #0EA5A0;
+  --bema-carbon: #0B1220;
+  --bema-slate: #64748B;
+  --bema-mist: #F4F7F8;
+  --bema-white: #FFFFFF;
+  --bema-font-display: "Inter Display", "Inter", Arial, sans-serif;
+  --bema-font-text: "Inter", Arial, sans-serif;
+  --bema-radius-sm: 8px;
+  --bema-radius-md: 16px;
+  --bema-radius-lg: 24px;
+  --bema-space-1: 4px;
+  --bema-space-2: 8px;
+  --bema-space-3: 12px;
+  --bema-space-4: 16px;
+  --bema-space-6: 24px;
+  --bema-space-8: 32px;
+  --bema-space-12: 48px;
+  --bema-space-16: 64px;
+}
+
+/*
+ * Semantic layer (SITE-SPEC §13.1). Components use these, not raw brand values.
+ * Contrast rules:
+ *  - Mineral Teal for links, buttons and labels on white or Mist. Never as text on Carbon.
+ *  - Signal Teal only for large text, decoration, or anything on Carbon.
+ *  - Slate (--color-text-meta) only on white, never on Mist or Carbon.
+ */
+:root {
+  /* Colour */
+  --color-bg: var(--bema-white);
+  --color-bg-subtle: var(--bema-mist);
+  --color-bg-inverse: var(--bema-carbon);
+  --color-text: var(--bema-carbon);
+  --color-text-secondary: #475569;
+  --color-text-meta: var(--bema-slate);
+  --color-text-inverse: var(--bema-white);
+  --color-text-inverse-secondary: #94A3B8;
+  --color-brand: var(--bema-mineral-teal);
+  --color-brand-hover: #005A61;
+  --color-accent: var(--bema-signal-teal);
+  --color-border: #DCE3E7;
+  --color-border-inverse: #1E293B;
+  --color-focus: var(--bema-mineral-teal);
+  --color-focus-inverse: var(--bema-signal-teal);
+
+  /* Type. Self-hosted Inter (variable, with optical sizes) is declared in Seo.astro. */
+  --font-text: "Inter", "Inter Fallback", Arial, sans-serif;
+  --font-display: "Inter Display", "Inter", "Inter Fallback", Arial, sans-serif;
+
+  --text-display: clamp(2.25rem, 1.6rem + 3vw, 4rem);
+  --text-h2: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  --text-h3: 1.25rem;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --text-body: 1.0625rem;
+  --text-small: 0.9375rem;
+  --text-label: 0.8125rem;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-body: 1.6;
+  --tracking-display: -0.02em;
+  --tracking-label: 0.08em;
+  --measure: 68ch;
+
+  /* Space */
+  --space-1: var(--bema-space-1);
+  --space-2: var(--bema-space-2);
+  --space-3: var(--bema-space-3);
+  --space-4: var(--bema-space-4);
+  --space-6: var(--bema-space-6);
+  --space-8: var(--bema-space-8);
+  --space-12: var(--bema-space-12);
+  --space-16: var(--bema-space-16);
+  --space-24: 96px;
+  --space-section: var(--bema-space-16);
+
+  /* Layout */
+  --container-max: 1160px;
+  --container-pad: var(--bema-space-6);
+  --header-height: 72px;
+
+  /* Shape */
+  --radius-sm: var(--bema-radius-sm);
+  --radius-md: var(--bema-radius-md);
+  --radius-lg: var(--bema-radius-lg);
+  --border-width: 1px;
+  --rule-width: 2px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+}
+
+@media (min-width: 720px) {
+  :root {
+    --container-pad: var(--bema-space-8);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --space-section: var(--space-24);
+  }
+}

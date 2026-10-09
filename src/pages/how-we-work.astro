@@ -1,0 +1,58 @@
+---
+// Scaffold stub. Owner: services-work (SITE-SPEC §6, COPY §3). Replace this file.
+// Keep the #principles, #examples and #faq anchors: other pages link to them.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Section from '../components/Section.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import IllustrativeExample from '../components/IllustrativeExample.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { examples } from '../data/examples';
+---
+
+<BaseLayout
+  title="How we work | BEMA Labs"
+  description="A short, disciplined process: walk the real process, agree scope and acceptance tests, build and test, then hand over documented work you own."
+>
+  <PageIntro
+    eyebrow="How we work"
+    title="How we work"
+    lead="Precise scope, honest testing and work you can run without us. The process scales to the job, so a small automation gets a short document, not a binder."
+  />
+  <Section labelledby="process-heading">
+    <div class="section-head">
+      <h2 id="process-heading">The process</h2>
+    </div>
+    <ProcessSteps variant="detailed" />
+  </Section>
+  <Section id="principles" tone="subtle" labelledby="principles-heading">
+    <div class="section-head">
+      <h2 id="principles-heading">Principles</h2>
+    </div>
+  </Section>
+  <Section id="examples" labelledby="examples-heading">
+    <div class="section-head">
+      <h2 id="examples-heading">Illustrative examples</h2>
+      <p>
+        These are typical patterns, not client projects. They show how we'd approach common problems
+        and what we'd test before calling the job done.
+      </p>
+    </div>
+    <div class="stub-examples">
+      {examples.map((example) => <IllustrativeExample example={example} variant="compact" />)}
+    </div>
+  </Section>
+  <Section id="faq" tone="subtle" labelledby="faq-heading">
+    <div class="section-head">
+      <h2 id="faq-heading">Questions people ask</h2>
+    </div>
+  </Section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .stub-examples {
+    display: grid;
+    gap: var(--space-6);
+  }
+</style>

@@ -1,0 +1,143 @@
+---
+/**
+ * One illustrative example (data: src/data/examples.ts).
+ * Always renders the visible label "Illustrative example" and the note inside the element with
+ * class="example" (checked by scripts/check-content.mjs). These are patterns, not client projects.
+ * variant: full (home proof slot) | compact (how-we-work list).
+ */
+import {
+  type Example,
+  exampleLabel,
+  exampleNote,
+  exampleSectionLabels as labels,
+} from '../data/examples';
+
+interface Props {
+  example: Example;
+  variant?: 'full' | 'compact';
+  headingLevel?: 2 | 3;
+}
+
+const { example, variant = 'full', headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const Sub = `h${headingLevel + 1}` as 'h3' | 'h4';
+const titleId = `example-${example.id}-title`;
+---
+
+<article class="example" id={`example-${example.id}`} data-variant={variant} aria-labelledby={titleId}>
+  <div class="example__head">
+    <p class="example__label">{exampleLabel}</p>
+    <Heading class="example__title" id={titleId}>{example.title}</Heading>
+    <p class="example__note">{exampleNote}</p>
+  </div>
+  <div class="example__grid">
+    <div class="example__part">
+      <Sub class="example__sub">{labels.situation}</Sub>
+      <ul class="list-bullet" role="list">
+        {example.situation.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <div class="example__part">
+      <Sub class="example__sub">{labels.build}</Sub>
+      <ul class="list-check" role="list">
+        {example.build.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <div class="example__part example__part--note">
+      <Sub class="example__sub">{labels.people}</Sub>
+      <p>{example.people}</p>
+    </div>
+    <div class="example__part example__part--note">
+      <Sub class="example__sub">{labels.test}</Sub>
+      <p>{example.test}</p>
+    </div>
+  </div>
+</article>
+
+<style>
+  .example {
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+
+  .example__head {
+    max-width: 46rem;
+  }
+
+  .example__label {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border: var(--border-width) dashed var(--color-brand);
+    border-radius: 999px;
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+
+  .example__title {
+    margin-top: var(--space-4);
+  }
+
+  .example__note {
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  .example__grid {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .example__sub {
+    font-family: var(--font-text);
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+  }
+
+  .example__part--note {
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-bg-subtle);
+    border-left: var(--rule-width) solid var(--color-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .example[data-variant='full'] .example__title {
+    font-size: var(--text-h2);
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: var(--leading-snug);
+  }
+
+  .example[data-variant='compact'] .example__grid {
+    font-size: var(--text-small);
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 720px) {
+    .example {
+      padding: var(--space-8);
+    }
+
+    .example__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-8);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .example[data-variant='full'] {
+      padding: var(--space-12);
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * Standalone text link with a trailing arrow, e.g. "More examples →".
+ * Paths starting with "/" go through withBase(). The arrow is decorative.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import ArrowRight from './icons/ArrowRight.astro';
+import { withBase } from '../lib/url';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
+  href: string;
+}
+
+const { href, class: className, ...rest } = Astro.props;
+---
+
+<a href={withBase(href)} class:list={['arrow-link', className]} {...rest}
+  ><span><slot /></span><ArrowRight size={18} class="arrow-link__icon" /></a
+>
+
+<style>
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .arrow-link span {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .arrow-link:hover span {
+    text-decoration-thickness: 2px;
+  }
+
+  .arrow-link :global(.arrow-link__icon) {
+    flex: none;
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .arrow-link:hover :global(.arrow-link__icon) {
+    transform: translateX(3px);
+  }
+</style>

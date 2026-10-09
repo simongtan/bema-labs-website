@@ -1,0 +1,30 @@
+---
+// Scaffold stub. Owner: services-work (SITE-SPEC §6, COPY §2). Replace this file.
+// Keep the #ways-to-work anchor: other pages link to it.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Section from '../components/Section.astro';
+import EngagementLadder from '../components/EngagementLadder.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<BaseLayout
+  title="Automation, integrations and dashboards | BEMA Labs"
+  description="Workflow automation, integrations and dashboards built on the tools you already own. Start with a free walkthrough; every build has a fixed scope and price."
+>
+  <PageIntro
+    eyebrow="Services"
+    title="Automation, integrations and dashboards for operations teams"
+    lead="We improve one real workflow at a time, using the tools you already own wherever we can. Most work starts in Microsoft 365 and Power Platform, with custom software only where configuration isn't enough."
+  />
+  <Section id="ways-to-work" tone="subtle" labelledby="ways-to-work-heading">
+    <div class="section-head">
+      <h2 id="ways-to-work-heading">Ways to work with us</h2>
+      <p>
+        Start with a conversation. Each step has a clear output, and you decide whether to go further.
+      </p>
+    </div>
+    <EngagementLadder variant="detailed" />
+  </Section>
+  <CtaBand />
+</BaseLayout>

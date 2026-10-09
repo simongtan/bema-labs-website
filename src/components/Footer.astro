@@ -1,0 +1,148 @@
+---
+/**
+ * Site footer (SITE-SPEC §4, COPY §0). Labs is linked from here (and About) only.
+ * ABN and Acknowledgement of Country render only when set/approved in src/config/site.ts.
+ */
+import Logo from './Logo.astro';
+import { site } from '../config/site';
+import { withBase } from '../lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a class="site-footer__logo" href={withBase('/')}>
+          <Logo variant="white" width={180} alt="BEMA Labs home" loading="lazy" />
+        </a>
+        <p class="site-footer__descriptor">{site.footerDescriptor}</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <div>
+          <h2 class="site-footer__heading">Work with us</h2>
+          <ul role="list">
+            {
+              site.footerNav.work.map((item) => (
+                <li>
+                  <a href={withBase(item.href)}>{item.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h2 class="site-footer__heading">Company</h2>
+          <ul role="list">
+            {
+              site.footerNav.company.map((item) => (
+                <li>
+                  <a href={withBase(item.href)}>{item.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <p class="site-footer__motif">{site.operatingLine}</p>
+
+    <div class="site-footer__legal">
+      <p>© {year} {site.name}.{site.abn && ` ABN ${site.abn}`}</p>
+      {site.showAcknowledgement && <p>BEMA Labs is based on Wiradjuri Country.</p>}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    padding-block: var(--space-12) var(--space-8);
+    font-size: var(--text-small);
+  }
+
+  .site-footer :focus-visible {
+    outline-color: var(--color-focus-inverse);
+  }
+
+  .site-footer__top {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .site-footer__logo {
+    display: inline-block;
+    border-radius: var(--radius-sm);
+  }
+
+  .site-footer__descriptor {
+    margin-top: var(--space-4);
+    max-width: 34ch;
+    color: var(--color-text-inverse-secondary);
+    font-size: var(--text-body);
+  }
+
+  .site-footer__nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+
+  .site-footer__heading {
+    font-family: var(--font-text);
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-inverse-secondary);
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer__nav ul {
+    list-style: none;
+  }
+
+  .site-footer__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--color-text-inverse);
+    font-size: var(--text-body);
+    text-decoration: none;
+  }
+
+  .site-footer__nav a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .site-footer__motif {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: var(--rule-width) solid var(--color-accent);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .site-footer__legal {
+    margin-top: var(--space-6);
+    color: var(--color-text-inverse-secondary);
+  }
+
+  .site-footer__legal > * + * {
+    margin-top: var(--space-2);
+  }
+
+  @media (min-width: 720px) {
+    .site-footer__top {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: start;
+    }
+  }
+</style>

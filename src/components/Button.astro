@@ -1,0 +1,95 @@
+---
+/**
+ * Link styled as a button. Paths starting with "/" go through withBase().
+ * variant: primary (Mineral Teal fill, light backgrounds), secondary (outline, light backgrounds),
+ *          inverse (Signal Teal fill, for Carbon backgrounds).
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { withBase } from '../lib/url';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'inverse';
+  size?: 'md' | 'sm';
+}
+
+const { href, variant = 'primary', size = 'md', class: className, ...rest } = Astro.props;
+---
+
+<a href={withBase(href)} class:list={['btn', `btn--${variant}`, `btn--${size}`, className]} {...rest}
+  ><slot /></a
+>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    padding: var(--space-3) var(--space-6);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-text);
+    font-size: var(--text-body);
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .btn--sm {
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-small);
+  }
+
+  .btn--primary {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  .btn--primary:hover {
+    background: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+    color: var(--color-text-inverse);
+  }
+
+  .btn--secondary {
+    background: var(--color-bg);
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .btn--secondary:hover {
+    background: var(--color-bg-subtle);
+    border-color: var(--color-brand-hover);
+    color: var(--color-brand-hover);
+  }
+
+  .btn--inverse {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-inverse);
+  }
+
+  .btn--inverse:hover {
+    background: var(--color-text-inverse);
+    border-color: var(--color-text-inverse);
+    color: var(--color-bg-inverse);
+  }
+
+  .btn--inverse:focus-visible {
+    outline-color: var(--color-focus-inverse);
+  }
+
+  .btn:hover {
+    text-decoration: none;
+  }
+</style>

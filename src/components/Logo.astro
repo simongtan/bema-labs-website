@@ -1,0 +1,35 @@
+---
+/**
+ * BEMA Labs horizontal lockup (viewBox 610×112). Brand minimum width is 180 px; never render smaller.
+ * Never recolour, rotate, distort or add effects to the logo.
+ */
+import { withBase } from '../lib/url';
+
+interface Props {
+  variant?: 'primary' | 'white';
+  width?: number;
+  alt?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+const { variant = 'primary', width = 196, alt = 'BEMA Labs', loading = 'eager' } = Astro.props;
+const safeWidth = Math.max(180, width);
+const height = Math.round((safeWidth * 112) / 610);
+---
+
+<img
+  class="logo"
+  src={withBase(`/brand/bema-labs-horizontal-${variant}.svg`)}
+  width={safeWidth}
+  height={height}
+  alt={alt}
+  loading={loading}
+  decoding="async"
+/>
+
+<style>
+  .logo {
+    display: block;
+    max-width: none;
+  }
+</style>

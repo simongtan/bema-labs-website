@@ -1,0 +1,54 @@
+---
+/**
+ * Opening block for inner pages: eyebrow, the page's single H1 and a lead paragraph.
+ * Extra content (e.g. a button) can go in the default slot.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  tone?: 'default' | 'subtle';
+}
+
+const { eyebrow, title, lead, tone = 'default' } = Astro.props;
+---
+
+<section class="page-intro" data-tone={tone} aria-labelledby="page-title">
+  <div class="container">
+    <div class="page-intro__inner">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 id="page-title">{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-intro {
+    padding-block: var(--space-16) var(--space-12);
+    background: var(--color-bg);
+  }
+
+  .page-intro[data-tone='subtle'] {
+    background: var(--color-bg-subtle);
+  }
+
+  .page-intro__inner {
+    max-width: 52rem;
+  }
+
+  .page-intro__inner > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .page-intro__inner > h1 + .lead {
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 960px) {
+    .page-intro {
+      padding-block: var(--space-24) var(--space-16);
+    }
+  }
+</style>

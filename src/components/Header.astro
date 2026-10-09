@@ -1,0 +1,157 @@
+---
+/**
+ * Site header (SITE-SPEC §4). No JavaScript and no hamburger: below 960 px the nav wraps to its own
+ * row under the logo and scrolls horizontally if needed. The header button is hidden below 480 px
+ * and on /contact/.
+ */
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import { site } from '../config/site';
+import { withBase } from '../lib/url';
+
+const current = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const isCurrent = (href: string) => current === withBase(href);
+const onContact = isCurrent('/contact/');
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href={withBase('/')} aria-current={isCurrent('/') ? 'page' : undefined}>
+      <Logo variant="primary" width={196} alt="BEMA Labs home" />
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul role="list">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    {
+      !onContact && (
+        <div class="site-header__cta">
+          <Button href={site.headerCta.href} size="sm">
+            {site.headerCta.label}
+          </Button>
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--color-bg);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'logo cta'
+      'nav nav';
+    align-items: center;
+    column-gap: var(--space-6);
+    padding-top: var(--space-4);
+  }
+
+  .site-header__logo {
+    grid-area: logo;
+    display: inline-block;
+    padding-block: var(--space-1);
+    border-radius: var(--radius-sm);
+  }
+
+  .site-header__cta {
+    grid-area: cta;
+    justify-self: end;
+    display: none;
+  }
+
+  .site-nav {
+    grid-area: nav;
+    margin-inline: calc(-1 * var(--container-pad));
+    margin-top: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: var(--space-1);
+    list-style: none;
+    padding-inline: calc(var(--container-pad) - var(--space-2));
+    white-space: nowrap;
+  }
+
+  .site-nav li {
+    flex: none;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    white-space: nowrap;
+    padding-inline: var(--space-2);
+    color: var(--color-text);
+    font-size: var(--text-small);
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .site-nav a:hover {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .site-nav a[aria-current='page'] {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.4em;
+  }
+
+  .site-nav a:focus-visible {
+    outline-offset: -2px;
+  }
+
+  @media (min-width: 480px) {
+    .site-header__cta {
+      display: block;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .site-header__inner {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'logo nav cta';
+      min-height: var(--header-height);
+      padding-block: var(--space-3);
+    }
+
+    .site-nav {
+      margin: 0;
+      overflow: visible;
+      justify-self: end;
+    }
+
+    .site-nav ul {
+      padding-inline: 0;
+    }
+
+    .site-nav a {
+      font-size: var(--text-body);
+      padding-inline: var(--space-3);
+    }
+  }
+</style>

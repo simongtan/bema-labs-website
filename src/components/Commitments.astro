@@ -1,0 +1,69 @@
+---
+/** Four client commitments (data: src/data/commitments.ts). */
+import { commitments } from '../data/commitments';
+import Check from './icons/Check.astro';
+
+interface Props {
+  headingLevel?: 2 | 3;
+}
+
+const { headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+---
+
+<ul class="commitments" role="list">
+  {
+    commitments.map((item) => (
+      <li class="commitment">
+        <span class="commitment__icon">
+          <Check size={20} />
+        </span>
+        <div>
+          <Heading class="commitment__title">{item.title}</Heading>
+          <p class="commitment__body">{item.body}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .commitments {
+    list-style: none;
+    display: grid;
+    gap: var(--space-8) var(--space-12);
+  }
+
+  .commitment {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .commitment__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-sm);
+    background: #E6F1F2;
+    color: var(--color-brand);
+  }
+
+  .commitment__title {
+    font-size: var(--text-h3);
+  }
+
+  .commitment__body {
+    margin-top: var(--space-2);
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+  }
+
+  @media (min-width: 720px) {
+    .commitments {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
